@@ -3,6 +3,10 @@ class Promise2 {
     if (typeof fn !== "function") {
       throw new Error("只接受函数作为参数！")
     }
+    fn()
+  }
+  then() {
+
   }
 }
 
