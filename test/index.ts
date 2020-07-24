@@ -38,4 +38,24 @@ describe("Promise", () => {
     new Promise(fn)
     assert(fn.called)
   })
+  it("new Promise(fn)中的 fn 执行的时候必须接受 resolve 和 reject 两个函数", done => {
+    new Promise((resolve, reject) => {
+      assert.isFunction(resolve)
+      assert.isFunction(reject)
+      done()
+    })
+  })
+  it("promise.then(success)中的 success 会在 resolve 被调用的时候执行", done => {
+    let success = sinon.fake()
+    const promise = new Promise((resolve, reject) => {
+      assert.isFalse(success.called)
+      resolve()
+      //先等resolve里的success执行
+      setTimeout(() => {
+        assert.isTrue(success.called)
+        done()
+      })
+    })
+    promise.then(success)
+  })
 })

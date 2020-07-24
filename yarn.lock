@@ -48,6 +48,11 @@
   resolved "https://registry.npm.taobao.org/@types/mocha/download/@types/mocha-8.0.0.tgz?cache=0&sync_timestamp=1594544061291&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fmocha%2Fdownload%2F%40types%2Fmocha-8.0.0.tgz#b0ba1c5b4cb3880c51a6b488ad007a657d1be888"
   integrity sha1-sLocW0yziAxRprSIrQB6ZX0b6Ig=
 
+"@types/node@^14.0.24":
+  version "14.0.24"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-14.0.24.tgz?cache=0&sync_timestamp=1595281356300&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-14.0.24.tgz#b0f86f58564fa02a28b68f8b55d4cdec42e3b9d6"
+  integrity sha1-sPhvWFZPoCooto+LVdTN7ELjudY=
+
 "@types/sinon-chai@^3.2.4":
   version "3.2.4"
   resolved "https://registry.npm.taobao.org/@types/sinon-chai/download/@types/sinon-chai-3.2.4.tgz#c425625681f4f8d3a43a7551a77f590ce1c49b21"
@@ -649,6 +654,18 @@ nise@^4.0.1:
     "@sinonjs/text-encoding" "^0.7.1"
     just-extend "^4.0.2"
     path-to-regexp "^1.7.0"
+
+node-bin-setup@^1.0.0:
+  version "1.0.6"
+  resolved "https://registry.npm.taobao.org/node-bin-setup/download/node-bin-setup-1.0.6.tgz#4b5c9bb937ece702d7069b36ca78af4684677528"
+  integrity sha1-S1ybuTfs5wLXBps2ynivRoRndSg=
+
+node@^14.5.0:
+  version "14.5.0"
+  resolved "https://registry.npm.taobao.org/node/download/node-14.5.0.tgz#9b41f8e6790225a6ffae0ff3e355cad55c745c65"
+  integrity sha1-m0H45nkCJab/rg/z41XK1Vx0XGU=
+  dependencies:
+    node-bin-setup "^1.0.0"
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
