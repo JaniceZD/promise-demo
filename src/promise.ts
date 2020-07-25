@@ -1,5 +1,8 @@
 class Promise2 {
   succeed = null
+  fail = null
+  state = "pending"
+
   constructor(fn) {
     if (typeof fn !== "function") {
       throw new Error("只接受函数作为参数！")
@@ -8,14 +11,26 @@ class Promise2 {
   }
   resolve() {
     nextTick(() => {
-      this.succeed()
+      if (typeof this.succeed === "function") {
+        this.succeed()
+      }
     })
   }
   reject() {
+    nextTick(() => {
+      if (typeof this.fail === "function") {
+        this.fail()
+      }
+    })
 
   }
-  then(succeed) {
-    this.succeed = succeed
+  then(succeed?, fail?) {
+    if (typeof succeed === "function") {
+      this.succeed = succeed
+    }
+    if (typeof fail === "function") {
+      this.fail = fail
+    }
   }
 }
 

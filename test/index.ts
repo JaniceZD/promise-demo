@@ -54,8 +54,28 @@ describe("Promise", () => {
       setTimeout(() => {
         assert.isTrue(success.called)
         done()
-      })
+      }, 0)
     })
     promise.then(success)
+  })
+  it("promise.then(null,fail)中的 fail 会在 reject 被调用的时候执行", done => {
+    let fail = sinon.fake()
+    const promise = new Promise((resolve, reject) => {
+      assert.isFalse(fail.called)
+      reject()
+      setTimeout(() => {
+        assert.isTrue(fail.called)
+        done()
+      }, 0)
+    })
+    promise.then(null, fail)
+  })
+  //参考文档写测试用例
+  it("2.2.1 onFulfilled和onRejected都是可选的参数", () => {
+    const promise = new Promise((resolve, reject) => {
+      resolve()
+    })
+    promise.then(false)
+    assert(1 === 1)
   })
 })
