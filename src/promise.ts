@@ -14,7 +14,7 @@ class Promise2 {
     this.state = "fulfilled"
     nextTick(() => {
       if (typeof this.succeed === "function") {
-        this.succeed(result)
+        this.succeed.call(undefined, result)
       }
     })
   }
@@ -23,7 +23,7 @@ class Promise2 {
     this.state = "rejected"
     nextTick(() => {
       if (typeof this.fail === "function") {
-        this.fail(reason)
+        this.fail.call(undefined, reason)
       }
     })
   }

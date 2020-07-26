@@ -135,4 +135,15 @@ describe("Promise", () => {
       done()
     }, 0);
   })
+  it("2.2.5 onFulfilled和onRejected必须被当做函数调用", done => {
+    const promise = new Promise((resolve, reject) => {
+      resolve()
+    })
+    promise.then(function () {
+      //调用这个函数时候如果给的this是空的，this就是undefined
+      'use strict'
+      assert(this === undefined)
+      done()
+    })
+  })
 })
