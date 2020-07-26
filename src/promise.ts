@@ -9,20 +9,23 @@ class Promise2 {
     }
     fn(this.resolve.bind(this), this.reject.bind(this))
   }
-  resolve() {
+  resolve(result) {
+    if (this.state !== "pending") return;
+    this.state = "fulfilled"
     nextTick(() => {
       if (typeof this.succeed === "function") {
-        this.succeed()
+        this.succeed(result)
       }
     })
   }
-  reject() {
+  reject(reason) {
+    if (this.state !== "pending") return;
+    this.state = "rejected"
     nextTick(() => {
       if (typeof this.fail === "function") {
-        this.fail()
+        this.fail(reason)
       }
     })
-
   }
   then(succeed?, fail?) {
     if (typeof succeed === "function") {

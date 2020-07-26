@@ -75,7 +75,64 @@ describe("Promise", () => {
     const promise = new Promise((resolve, reject) => {
       resolve()
     })
-    promise.then(false)
+    promise.then(false, null)
     assert(1 === 1)
+  })
+  it("2.2.2 如果onFulfilled是函数", done => {
+    //此函数必须在 `promise` 完成(fulfilled)后被调用,并把 `promise` 的值作为onFulfilled它的第一个参数；
+    //此函数不能被调用超过一次
+    let succeed = sinon.fake()
+    const promise = new Promise((resolve, reject) => {
+      assert.isFalse(succeed.called)
+      resolve(233)
+      resolve(2333)
+      setTimeout(() => {
+        assert(promise.state === "fulfilled")
+        assert(succeed.calledWith(233))   //判断参数
+        assert.isTrue(succeed.calledOnce)  //判断只调用一次
+        done()
+      }, 0)
+    })
+    promise.then(succeed)
+  })
+  it("2.2.3 如果onRejected是函数", done => {
+    let fail = sinon.fake()
+    const promise = new Promise((resolve, reject) => {
+      assert.isFalse(fail.called)
+      reject(403)
+      reject(4033)
+      setTimeout(() => {
+        assert(promise.state === "rejected")
+        assert(fail.calledWith(403))
+        assert.isTrue(fail.calledOnce)
+        done()
+      }, 0)
+    })
+    promise.then(null, fail)
+  })
+  it("2.2.4 在我的代码执行完毕之前，不得调用 then 后面的俩函数", done => {
+    let succeed = sinon.fake()
+    const promise = new Promise((resolve, reject) => {
+      resolve()
+    })
+    promise.then(succeed)
+    //console.log(1) 在执行完这句代码之后，才去执行succeed
+    assert.isFalse(succeed.called)
+    setTimeout(() => {
+      assert.isTrue(succeed.called)
+      done()
+    }, 0);
+  })
+  it("2.2.4 失败回调", done => {
+    let fn = sinon.fake()
+    const promise = new Promise((resolve, reject) => {
+      reject()
+    })
+    promise.then(null, fn)
+    assert.isFalse(fn.called)
+    setTimeout(() => {
+      assert.isTrue(fn.called)
+      done()
+    }, 0);
   })
 })
