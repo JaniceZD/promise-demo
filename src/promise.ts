@@ -14,9 +14,15 @@ class Promise2 {
     nextTick(() => {
       //遍历callbacks，调用所有的handle[0]
       this.callbacks.forEach(handle => {
+        let x
         if (typeof handle[0] === "function") {
-          handle[0].call(undefined, result)
+          try {
+            x = handle[0].call(undefined, result)
+          } catch (error) {
+            handle[2].reject(error)
+          }
         }
+        handle[2].resolve(x)
       })
 
     })
@@ -27,9 +33,15 @@ class Promise2 {
     nextTick(() => {
       //遍历callbacks，调用所有的handle[1]
       this.callbacks.forEach(handle => {
+        let x
         if (typeof handle[1] === "function") {
-          handle[1].call(undefined, reason)
+          try {
+            x = handle[1].call(undefined, reason)
+          } catch (error) {
+            handle[2].reject(error)
+          }
         }
+        handle[2].resolve(x)
       })
 
     })
@@ -42,8 +54,10 @@ class Promise2 {
     if (typeof fail === "function") {
       handle[1] = fail
     }
+    handle[2] = new Promise2(() => { })
     //把函数推到 callbacks 里面
     this.callbacks.push(handle)
+    return handle[2]
   }
 }
 

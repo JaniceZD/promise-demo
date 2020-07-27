@@ -180,4 +180,15 @@ describe("Promise", () => {
       done()
     })
   })
+  it("2.2.7 then必须返回一个promise", done => {
+    const promise = new Promise((resolve, reject) => {
+      resolve()
+    })
+    const promise2 = promise.then(() => "成功", () => { })
+    assert(promise2 instanceof Promise)
+    promise2.then(result => {
+      assert.equal(result, "成功")
+      done()
+    })
+  })
 })
