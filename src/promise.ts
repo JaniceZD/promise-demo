@@ -1,7 +1,6 @@
 class Promise2 {
-  succeed = null
-  fail = null
   state = "pending"
+  callbacks = []
 
   constructor(fn) {
     if (typeof fn !== "function") {
@@ -13,27 +12,38 @@ class Promise2 {
     if (this.state !== "pending") return;
     this.state = "fulfilled"
     nextTick(() => {
-      if (typeof this.succeed === "function") {
-        this.succeed.call(undefined, result)
-      }
+      //遍历callbacks，调用所有的handle[0]
+      this.callbacks.forEach(handle => {
+        if (typeof handle[0] === "function") {
+          handle[0].call(undefined, result)
+        }
+      })
+
     })
   }
   reject(reason) {
     if (this.state !== "pending") return;
     this.state = "rejected"
     nextTick(() => {
-      if (typeof this.fail === "function") {
-        this.fail.call(undefined, reason)
-      }
+      //遍历callbacks，调用所有的handle[1]
+      this.callbacks.forEach(handle => {
+        if (typeof handle[1] === "function") {
+          handle[1].call(undefined, reason)
+        }
+      })
+
     })
   }
   then(succeed?, fail?) {
+    const handle = []
     if (typeof succeed === "function") {
-      this.succeed = succeed
+      handle[0] = succeed
     }
     if (typeof fail === "function") {
-      this.fail = fail
+      handle[1] = fail
     }
+    //把函数推到 callbacks 里面
+    this.callbacks.push(handle)
   }
 }
 
